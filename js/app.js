@@ -145,7 +145,6 @@
       layout: null,
       filter: 'none',
       bg: 'none',
-      burst: false,
       framePad: 16,
       mirrored: true,
       stream: null,
@@ -175,6 +174,22 @@
     var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     var d = new Date();
     return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  // Contrasting halo color for a hex text color: dark halo behind light
+  // text, light halo behind dark text — keeps text readable on any photo
+  // or frame it lands on.
+  function haloColor(hex) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+    if (!m) return 'rgba(12,16,30,.85)';
+    var n = parseInt(m[1], 16);
+    var lum = (0.299 * (n >> 16 & 255) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) / 255;
+    return lum >= 0.5 ? 'rgba(12,16,30,.85)' : 'rgba(255,255,255,.9)';
+  }
+
+  function haloTextShadow(hex) {
+    var h = haloColor(hex);
+    return '0 0 3px ' + h + ', 0 1px 2px ' + h + ', 0 -1px 2px ' + h + ', 1px 0 2px ' + h + ', -1px 0 2px ' + h;
   }
 
   /* ============================================================
@@ -578,13 +593,6 @@
       });
     }
 
-    // Burst: one countdown, then all shots rapid-fire.
-    function burstShots() {
-      if (i >= total) { finishSequence(); return; }
-      takeShot();
-      setTimeout(burstShots, 550);
-    }
-
     function finishSequence() {
       cameraSub.textContent = 'All done! Building your strip…';
       btnCapture.textContent = '📸 Say Datshi!';
@@ -593,18 +601,9 @@
       setTimeout(function () { goToPage('customize'); }, 500);
     }
 
-    if (state.burst) {
-      cameraSub.textContent = 'Get ready — burst incoming!';
-      runCountdown().then(burstShots);
-    } else {
-      nextShot();
-    }
-  }
+    nextShot();
 
-  document.getElementById('burst-toggle').addEventListener('click', function () {
-    state.burst = !state.burst;
-    this.classList.toggle('on', state.burst);
-  });
+  }
 
   btnCapture.addEventListener('click', function () {
     try {
@@ -814,7 +813,7 @@
   function ensureDateStamp() {
     var existing = state.texts.find(function (t) { return t.isDate; });
     if (state.dateStampOn && !existing) {
-      state.texts.push({ id: 'datestamp', text: formatDateStamp(), xPct: 50, yPct: 93, font: 'modern', color: '#5b4b2a', size: 14, isDate: true });
+      state.texts.push({ id: 'datestamp', text: formatDateStamp(), xPct: 50, yPct: 93, font: 'modern', color: '#ffffff', size: 14, isDate: true });
     } else if (!state.dateStampOn && existing) {
       state.texts = state.texts.filter(function (t) { return !t.isDate; });
     } else if (existing) {
@@ -855,6 +854,7 @@
       el.style.top      = tx.yPct + '%';
       el.style.color    = tx.color;
       el.style.fontSize = tx.size + 'px';
+      if (tx.isDate) el.style.textShadow = haloTextShadow(tx.color);
       el.innerHTML = '<span class="text-content"></span><button class="elem-delete" type="button" aria-label="Remove text">×</button>';
       el.querySelector('.text-content').textContent = tx.text;
       textLayer.appendChild(el);
@@ -1105,13 +1105,21 @@
     state.texts.forEach(function (tx) {
       var f = TEXT_FONTS[tx.font] || TEXT_FONTS.modern;
       var size = tx.size * k;
+      var x = (tx.xPct / 100) * w, y = (tx.yPct / 100) * h;
       ctx.save();
       ctx.font = (f.italic ? 'italic ' : '') + f.weight + ' ' + size + 'px ' + f.family;
       if (f.spacing && 'letterSpacing' in ctx) ctx.letterSpacing = (size * f.spacing) + 'px';
-      ctx.fillStyle = tx.color;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(tx.text, (tx.xPct / 100) * w, (tx.yPct / 100) * h);
+      if (tx.isDate) {
+        // contrast halo so the stamp stays readable on any background
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = haloColor(tx.color);
+        ctx.lineWidth = Math.max(2, size * 0.16);
+        ctx.strokeText(tx.text, x, y);
+      }
+      ctx.fillStyle = tx.color;
+      ctx.fillText(tx.text, x, y);
       ctx.restore();
     });
 
@@ -1292,52 +1300,6 @@
     });
   });
 
-  /* GIF / Boomerang export */
-  function buildAnimatedGIF(frames, interval, filename, btn) {
-    if (!window.gifshot) {
-      btn.textContent = 'GIF unavailable offline';
-      setTimeout(function () { btn.textContent = btn.dataset.label; }, 2500);
-      return;
-    }
-    var original = btn.dataset.label;
-    btn.disabled = true;
-    btn.textContent = 'Building…';
-    window.gifshot.createGIF({
-      images: frames,
-      interval: interval,
-      gifWidth: 480,
-      gifHeight: 360,
-      numWorkers: 2
-    }, function (result) {
-      btn.disabled = false;
-      btn.textContent = original;
-      if (result.error) return;
-      var a = document.createElement('a');
-      a.href = result.image;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
-  }
-
-  document.getElementById('btn-gif').addEventListener('click', function () {
-    if (!state.photos.length) return;
-    buildAnimatedGIF(state.photos.slice(), 0.4, 'oro-photobooth.gif', this);
-  });
-
-  document.getElementById('btn-boomerang').addEventListener('click', function () {
-    if (!state.photos.length) return;
-    // forward then reverse (without repeating the endpoints) = boomerang loop
-    var frames = state.photos.concat(state.photos.slice(1, -1).reverse());
-    buildAnimatedGIF(frames, 0.18, 'oro-photobooth-boomerang.gif', this);
-  });
-
-  ['btn-gif', 'btn-boomerang'].forEach(function (id) {
-    var b = document.getElementById(id);
-    b.dataset.label = b.textContent;
-  });
-
   document.getElementById('btn-retake').addEventListener('click', function () { goToPage('camera'); });
 
   document.getElementById('btn-restart').addEventListener('click', function () {
@@ -1348,7 +1310,6 @@
     document.querySelector('.filter-chip[data-filter="none"]').classList.add('active');
     document.getElementById('date-toggle').classList.add('on');
     document.getElementById('caption-input').value = '';
-    document.getElementById('burst-toggle').classList.remove('on');
     $all('.bg-chip').forEach(function (c) { c.classList.remove('active'); });
     document.querySelector('.bg-chip[data-bg="none"]').classList.add('active');
     updateBgPreview();

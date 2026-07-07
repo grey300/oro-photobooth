@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node verify-v3.js)"
+      "Bash(node verify-v3.js)",
+      "Bash(node -e ' *)",
+      "Bash(cp ui-4-customize.png crop-test.png)",
+      "Bash(sips -c 300 400 --cropOffset 230 240 crop-test.png)",
+      "Bash(sips -z 600 800 crop-test.png)"
     ]
   }
 }
