@@ -118,6 +118,7 @@
       <div class="camera-stage">
         <div class="camera-frame glass-card" id="camera-frame">
           <video id="video-preview" autoplay playsinline muted></video>
+          <canvas id="seg-preview"></canvas>
           <div class="overlay-tint" id="filter-overlay"></div>
           <div class="flash-layer" id="flash-layer"></div>
           <div class="countdown-layer">
@@ -137,6 +138,20 @@
         <button class="filter-chip" data-filter="cold">Cold</button>
         <button class="filter-chip" data-filter="fiji">Fiji</button>
         <button class="filter-chip" data-filter="canon">Canon G7X</button>
+      </div>
+
+      <div class="filter-row bg-row">
+        <span class="bg-row-label">Background</span>
+        <button class="filter-chip bg-chip active" data-bg="none">None</button>
+        <button class="filter-chip bg-chip" data-bg="blur">Blur</button>
+        <button class="filter-chip bg-chip" data-bg="sunset">Sunset</button>
+        <button class="filter-chip bg-chip" data-bg="ocean">Ocean</button>
+        <button class="filter-chip bg-chip" data-bg="night">Night</button>
+      </div>
+
+      <div class="burst-row">
+        <span class="burst-label">Burst mode <small>one countdown, rapid-fire shots</small></span>
+        <button class="toggle" id="burst-toggle" aria-label="Toggle burst mode"></button>
       </div>
 
       <button class="btn-capture" id="btn-capture">
