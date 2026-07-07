@@ -19,11 +19,16 @@
   };
 
   var SOLID_COLORS = [
-    { id: 'white',  label: 'White',         value: '#ffffff' },
-    { id: 'pink',   label: 'Pink',          value: '#ffc4d6' },
-    { id: 'sky',    label: 'Sky Blue',      value: '#bfe3ff' },
-    { id: 'purple', label: 'Purple',        value: '#d9c6ff' },
-    { id: 'butter', label: 'Butter Yellow', value: '#fff1b8' }
+    { id: 'white',    label: 'White',         value: '#ffffff' },
+    { id: 'pink',     label: 'Pink',          value: '#ffc4d6' },
+    { id: 'sky',      label: 'Sky Blue',      value: '#bfe3ff' },
+    { id: 'purple',   label: 'Purple',        value: '#d9c6ff' },
+    { id: 'butter',   label: 'Butter Yellow', value: '#fff1b8' },
+    { id: 'mint',     label: 'Mint',          value: '#c9f0dd' },
+    { id: 'peach',    label: 'Peach',         value: '#ffd8c2' },
+    { id: 'rose',     label: 'Rose',          value: '#f7a8b8' },
+    { id: 'cream',    label: 'Cream',         value: '#fff8e7' },
+    { id: 'charcoal', label: 'Charcoal',      value: '#2b2b3c' }
   ];
 
   // Pattern frames carry `stripe`/`dots` params mirroring their CSS so the
@@ -32,26 +37,96 @@
   var STRIPE_PATTERNS = [
     { id: 'sky-pink',    label: 'Sky Blue + Pink',      css: 'repeating-linear-gradient(45deg,#bfe3ff 0px,#bfe3ff 16px,#ffc4d6 16px,#ffc4d6 32px)', stripe: { c1: '#bfe3ff', c2: '#ffc4d6', size: 16 } },
     { id: 'butter-pink', label: 'Butter Yellow + Pink', css: 'repeating-linear-gradient(45deg,#fff1b8 0px,#fff1b8 16px,#ffc4d6 16px,#ffc4d6 32px)', stripe: { c1: '#fff1b8', c2: '#ffc4d6', size: 16 } },
-    { id: 'blue-white',  label: 'Blue + White',         css: 'repeating-linear-gradient(45deg,#bfe3ff 0px,#bfe3ff 16px,#ffffff 16px,#ffffff 32px)', stripe: { c1: '#bfe3ff', c2: '#ffffff', size: 16 } }
+    { id: 'blue-white',  label: 'Blue + White',         css: 'repeating-linear-gradient(45deg,#bfe3ff 0px,#bfe3ff 16px,#ffffff 16px,#ffffff 32px)', stripe: { c1: '#bfe3ff', c2: '#ffffff', size: 16 } },
+    { id: 'mint-white',  label: 'Mint + White',         css: 'repeating-linear-gradient(45deg,#c9f0dd 0px,#c9f0dd 16px,#ffffff 16px,#ffffff 32px)', stripe: { c1: '#c9f0dd', c2: '#ffffff', size: 16 } },
+    { id: 'lav-white',   label: 'Lavender + White',     css: 'repeating-linear-gradient(45deg,#d9c6ff 0px,#d9c6ff 16px,#ffffff 16px,#ffffff 32px)', stripe: { c1: '#d9c6ff', c2: '#ffffff', size: 16 } },
+    { id: 'peach-cream', label: 'Peach + Cream',        css: 'repeating-linear-gradient(45deg,#ffd8c2 0px,#ffd8c2 16px,#fff8e7 16px,#fff8e7 32px)', stripe: { c1: '#ffd8c2', c2: '#fff8e7', size: 16 } },
+    { id: 'candy-cane',  label: 'Candy Cane',           css: 'repeating-linear-gradient(45deg,#ff8fa8 0px,#ff8fa8 16px,#ffffff 16px,#ffffff 32px)', stripe: { c1: '#ff8fa8', c2: '#ffffff', size: 16 } }
   ];
 
   var DOT_PATTERNS = [
     { id: 'dot-pink',   label: 'Pink Dots',   css: 'radial-gradient(circle, #ff8fb1 30%, transparent 32%) 0 0/22px 22px, #fff5f8', dots: { color: '#ff8fb1', bg: '#fff5f8', cell: 22, radius: 5 } },
     { id: 'dot-blue',   label: 'Sky Dots',    css: 'radial-gradient(circle, #5fb6ff 30%, transparent 32%) 0 0/22px 22px, #eef8ff', dots: { color: '#5fb6ff', bg: '#eef8ff', cell: 22, radius: 5 } },
     { id: 'dot-purple', label: 'Purple Dots', css: 'radial-gradient(circle, #b48bff 30%, transparent 32%) 0 0/22px 22px, #f6f0ff', dots: { color: '#b48bff', bg: '#f6f0ff', cell: 22, radius: 5 } },
-    { id: 'dot-gold',   label: 'Gold Dots',   css: 'radial-gradient(circle, #f3c969 30%, transparent 32%) 0 0/22px 22px, #fffaf0', dots: { color: '#f3c969', bg: '#fffaf0', cell: 22, radius: 5 } }
+    { id: 'dot-gold',   label: 'Gold Dots',   css: 'radial-gradient(circle, #f3c969 30%, transparent 32%) 0 0/22px 22px, #fffaf0', dots: { color: '#f3c969', bg: '#fffaf0', cell: 22, radius: 5 } },
+    { id: 'dot-mint',   label: 'Mint Dots',   css: 'radial-gradient(circle, #5fd6a2 30%, transparent 32%) 0 0/22px 22px, #effaf4', dots: { color: '#5fd6a2', bg: '#effaf4', cell: 22, radius: 5 } },
+    { id: 'dot-coral',  label: 'Coral Dots',  css: 'radial-gradient(circle, #ff7f66 30%, transparent 32%) 0 0/22px 22px, #fff3ef', dots: { color: '#ff7f66', bg: '#fff3ef', cell: 22, radius: 5 } },
+    { id: 'dot-ink',    label: 'Ink Dots',    css: 'radial-gradient(circle, #3a3a4c 30%, transparent 32%) 0 0/22px 22px, #f2f2f7', dots: { color: '#3a3a4c', bg: '#f2f2f7', cell: 22, radius: 5 } }
   ];
 
+  var CHECKER_PATTERNS = [
+    { id: 'check-pink',   label: 'Pink Check',   css: 'conic-gradient(#ffc4d6 90deg, #ffffff 90deg 180deg, #ffc4d6 180deg 270deg, #ffffff 270deg) 0 0/28px 28px', checker: { c1: '#ffc4d6', c2: '#ffffff', cell: 14 } },
+    { id: 'check-sky',    label: 'Sky Check',    css: 'conic-gradient(#bfe3ff 90deg, #ffffff 90deg 180deg, #bfe3ff 180deg 270deg, #ffffff 270deg) 0 0/28px 28px', checker: { c1: '#bfe3ff', c2: '#ffffff', cell: 14 } },
+    { id: 'check-butter', label: 'Butter Check', css: 'conic-gradient(#fff1b8 90deg, #ffffff 90deg 180deg, #fff1b8 180deg 270deg, #ffffff 270deg) 0 0/28px 28px', checker: { c1: '#fff1b8', c2: '#ffffff', cell: 14 } },
+    { id: 'check-retro',  label: 'Retro Check',  css: 'conic-gradient(#2b2b3c 90deg, #fff8e7 90deg 180deg, #2b2b3c 180deg 270deg, #fff8e7 270deg) 0 0/28px 28px', checker: { c1: '#2b2b3c', c2: '#fff8e7', cell: 14 } }
+  ];
+
+  var ALL_PATTERNS = STRIPE_PATTERNS.concat(DOT_PATTERNS).concat(CHECKER_PATTERNS);
+
+  // Each item is [emoji, search keywords].
   var STICKER_CATEGORIES = [
-    { name: 'Hearts',                     items: ['💖', '💕', '❤️', '💗', '💘'] },
-    { name: 'Stars',                      items: ['⭐', '🌟', '💫', '✨'] },
-    { name: 'Sparkles',                   items: ['✨', '🎇', '🎆', '🌠'] },
-    { name: 'Clouds',                     items: ['☁️', '⛅', '🌥️'] },
-    { name: 'Flowers',                    items: ['🌸', '🌺', '🌷', '🌼', '🌻'] },
-    { name: 'Bows',                       items: ['🎀', '🪢'] },
-    { name: 'Butterflies',                items: ['🦋'] },
-    { name: 'Smiley Faces',               items: ['😊', '😄', '🥰', '😎', '🤩', '😋'] },
-    { name: 'Trending — Football Fever',  items: ['⚽', '🏆', '🥅', '🎉', '🏅', '🔥', '📣', '🧤'] }
+    { name: 'Hearts', items: [
+      ['💖','sparkling heart pink love'], ['💕','two hearts pink love'], ['❤️','red heart love'],
+      ['💗','growing heart pink love'], ['💘','heart arrow cupid love'], ['💝','heart ribbon gift love'],
+      ['💞','revolving hearts love'], ['🧡','orange heart love'], ['💛','yellow heart love'],
+      ['💚','green heart love'], ['💙','blue heart love'], ['💜','purple heart love'], ['🖤','black heart love']
+    ]},
+    { name: 'Stars & Sparkles', items: [
+      ['⭐','star yellow'], ['🌟','glowing star shine'], ['💫','dizzy star swirl halo'], ['✨','sparkles shine glitter'],
+      ['🌠','shooting star wish'], ['🎇','sparkler firework'], ['🎆','fireworks celebration']
+    ]},
+    { name: 'Party', items: [
+      ['🎉','party popper confetti celebrate'], ['🎊','confetti ball party'], ['🎈','balloon party birthday'],
+      ['🎂','birthday cake party'], ['🎁','gift present box'], ['🪩','disco ball mirror dance'], ['🥳','party face celebrate hat']
+    ]},
+    { name: 'Weather & Sky', items: [
+      ['☁️','cloud white sky'], ['⛅','sun behind cloud sky'], ['🌥️','cloudy sun sky'], ['🌈','rainbow colorful sky'],
+      ['☀️','sun sunny bright'], ['🌙','moon crescent night'], ['⚡','lightning bolt thunder'], ['❄️','snowflake snow winter cold'],
+      ['🔥','fire flame hot lit'], ['💧','water drop rain']
+    ]},
+    { name: 'Flowers & Nature', items: [
+      ['🌸','cherry blossom pink flower'], ['🌺','hibiscus red flower'], ['🌷','tulip pink flower'],
+      ['🌼','daisy blossom yellow flower'], ['🌻','sunflower yellow flower'], ['🌹','rose red flower'],
+      ['💐','bouquet flowers'], ['🍀','clover luck four leaf'], ['🌿','herb leaf green plant'],
+      ['🌵','cactus desert plant'], ['🌴','palm tree beach tropical']
+    ]},
+    { name: 'Cute Things', items: [
+      ['🎀','ribbon bow pink'], ['🪢','knot rope'], ['👑','crown king queen royal'], ['💎','gem diamond jewel'],
+      ['🕶️','sunglasses cool shades'], ['🧸','teddy bear plush toy'], ['🫧','bubbles soap'], ['🍭','lollipop candy sweet']
+    ]},
+    { name: 'Animals', items: [
+      ['🦋','butterfly wings'], ['🐱','cat kitten meow'], ['🐶','dog puppy woof'], ['🐰','rabbit bunny'],
+      ['🐼','panda bear'], ['🐨','koala bear'], ['🦊','fox'], ['🐸','frog green'], ['🐥','chick baby bird'],
+      ['🦄','unicorn magic'], ['🐢','turtle slow'], ['🐙','octopus sea'], ['🦖','dinosaur trex']
+    ]},
+    { name: 'Faces', items: [
+      ['😊','smile happy blush'], ['😄','grin happy laugh'], ['🥰','smiling hearts love adore'],
+      ['😎','cool sunglasses'], ['🤩','star struck wow excited'], ['😋','yummy tongue tasty'],
+      ['😜','wink tongue silly'], ['🤪','zany crazy silly goofy'], ['😇','angel halo innocent'],
+      ['😏','smirk sly'], ['🙃','upside down silly'], ['😭','crying sob tears'], ['🤯','mind blown explode'],
+      ['😴','sleep zzz tired'], ['🤓','nerd glasses geek'], ['😈','devil purple evil grin']
+    ]},
+    { name: 'Hands', items: [
+      ['👍','thumbs up like good'], ['✌️','peace victory'], ['🤘','rock horns metal'], ['🤙','call me shaka hang loose'],
+      ['👏','clap applause'], ['🙌','raised hands hooray praise'], ['💪','muscle strong flex'],
+      ['🫶','heart hands love'], ['🤞','fingers crossed luck'], ['👋','wave hello hi bye']
+    ]},
+    { name: 'Food & Drink', items: [
+      ['🍕','pizza slice'], ['🍔','burger hamburger'], ['🍟','fries chips'], ['🌮','taco mexican'],
+      ['🍩','donut doughnut sweet'], ['🍦','ice cream soft serve'], ['🧁','cupcake muffin sweet'],
+      ['🍓','strawberry fruit red'], ['🍉','watermelon fruit'], ['🍒','cherries fruit red'],
+      ['🥑','avocado green'], ['☕','coffee tea cup hot'], ['🧋','boba bubble tea milk'], ['🍿','popcorn movie snack']
+    ]},
+    { name: 'Fun & Games', items: [
+      ['📸','camera photo flash'], ['🎧','headphones music'], ['🎮','game controller video games'],
+      ['🎸','guitar rock music'], ['🎤','microphone sing karaoke'], ['🎨','art palette paint'],
+      ['🏀','basketball hoops'], ['⚾','baseball'], ['🎾','tennis ball'], ['🚀','rocket space launch'],
+      ['✈️','airplane travel fly'], ['💯','hundred perfect score'], ['💬','speech bubble chat'], ['💤','zzz sleep']
+    ]},
+    { name: 'Trending — Football Fever', items: [
+      ['⚽','football soccer ball'], ['🏆','trophy winner champion cup'], ['🥅','goal net'],
+      ['🏅','medal winner sports'], ['📣','megaphone cheer'], ['🧤','gloves goalkeeper keeper']
+    ]}
   ];
 
   var STEP_ORDER = ['layout', 'camera', 'customize', 'export'];
@@ -65,6 +140,9 @@
       prevPage: null,
       layout: null,
       filter: 'none',
+      bg: 'none',
+      burst: false,
+      framePad: 16,
       mirrored: true,
       stream: null,
       photos: [],
@@ -180,9 +258,9 @@
     filterOverlay.style.opacity = f.opacity;
   }
 
-  $all('.filter-chip').forEach(function (chip) {
+  $all('#filter-row .filter-chip').forEach(function (chip) {
     chip.addEventListener('click', function () {
-      $all('.filter-chip').forEach(function (c) { c.classList.remove('active'); });
+      $all('#filter-row .filter-chip').forEach(function (c) { c.classList.remove('active'); });
       chip.classList.add('active');
       state.filter = chip.getAttribute('data-filter');
       applyFilterToPreview(state.filter);
@@ -219,10 +297,13 @@
     state.mirrored = mirrored;
     videoEl.srcObject = stream;
     videoEl.classList.toggle('mirrored', !!mirrored);
+    segCanvas.classList.toggle('mirrored', !!mirrored);
     var p = videoEl.play();
     if (p && p.catch) p.catch(function () {});
     applyFilterToPreview(state.filter);
     hideCameraStatus();
+    updateBgPreview();
+    if (state.bg !== 'none' && segmenter) startSegLoop();
   }
 
   function showCameraError(err) {
@@ -249,6 +330,133 @@
       state.stream = null;
     }
   }
+
+  /* ── Background replacement (MediaPipe selfie segmentation) ── */
+  var segCanvas = document.getElementById('seg-preview');
+  var segCtx = segCanvas.getContext('2d');
+  var segmenter = null, segFailed = false, segLoopRunning = false, segBusy = false;
+
+  function drawScene(ctx, w, h, name) {
+    var g = ctx.createLinearGradient(0, 0, 0, h);
+    if (name === 'sunset') {
+      g.addColorStop(0, '#2b1a5e'); g.addColorStop(0.5, '#c2426d'); g.addColorStop(0.8, '#ff8c5a'); g.addColorStop(1, '#ffcf70');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,236,170,0.9)';
+      ctx.beginPath(); ctx.arc(w * 0.5, h * 0.8, Math.min(w, h) * 0.14, 0, Math.PI * 2); ctx.fill();
+    } else if (name === 'ocean') {
+      g.addColorStop(0, '#8fdcf5'); g.addColorStop(0.5, '#2a9fd8'); g.addColorStop(1, '#04537f');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      ctx.globalAlpha = 0.12; ctx.fillStyle = '#ffffff';
+      for (var i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.ellipse(w * (0.25 + i * 0.3), h * (0.25 + i * 0.22), w * 0.35, h * 0.05, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    } else if (name === 'night') {
+      g.addColorStop(0, '#070b26'); g.addColorStop(1, '#232c63');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#ffffff';
+      for (var s = 0; s < 90; s++) {
+        // deterministic pseudo-random star field
+        var sx = ((s * 1237) % 997) / 997 * w;
+        var sy = ((s * 761) % 991) / 991 * h * 0.92;
+        ctx.globalAlpha = 0.35 + ((s * 37) % 60) / 100;
+        ctx.fillRect(sx, sy, 1.5 + (s % 3), 1.5 + (s % 3));
+      }
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#f4f1de';
+      ctx.beginPath(); ctx.arc(w * 0.82, h * 0.16, Math.min(w, h) * 0.09, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#151b45';
+      ctx.beginPath(); ctx.arc(w * 0.79, h * 0.135, Math.min(w, h) * 0.075, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function onSegResults(results) {
+    var w = results.image.width, h = results.image.height;
+    if (segCanvas.width !== w || segCanvas.height !== h) { segCanvas.width = w; segCanvas.height = h; }
+    segCtx.save();
+    segCtx.clearRect(0, 0, w, h);
+    // person = mask ∩ frame
+    segCtx.drawImage(results.segmentationMask, 0, 0, w, h);
+    segCtx.globalCompositeOperation = 'source-in';
+    segCtx.drawImage(results.image, 0, 0, w, h);
+    // background behind the person
+    segCtx.globalCompositeOperation = 'destination-over';
+    if (state.bg === 'blur') {
+      segCtx.filter = 'blur(16px)';
+      // draw slightly oversized so the blur doesn't show transparent edges
+      segCtx.drawImage(results.image, -w * 0.05, -h * 0.05, w * 1.1, h * 1.1);
+      segCtx.filter = 'none';
+    } else {
+      drawScene(segCtx, w, h, state.bg);
+    }
+    segCtx.restore();
+  }
+
+  function bgActive() {
+    return state.bg !== 'none' && !!segmenter && segCanvas.width > 0;
+  }
+
+  function updateBgPreview() {
+    var active = state.bg !== 'none' && !!segmenter;
+    segCanvas.style.display = active ? 'block' : 'none';
+    videoEl.style.visibility = active ? 'hidden' : 'visible';
+  }
+
+  function ensureSegmenter() {
+    if (segmenter || segFailed) return !!segmenter;
+    if (!window.SelfieSegmentation) { segFailed = true; return false; }
+    try {
+      segmenter = new window.SelfieSegmentation({
+        locateFile: function (f) { return 'https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/' + f; }
+      });
+      segmenter.setOptions({ modelSelection: 1 });
+      segmenter.onResults(onSegResults);
+      return true;
+    } catch (e) {
+      segFailed = true;
+      segmenter = null;
+      return false;
+    }
+  }
+
+  function segFrame() {
+    if (state.bg === 'none' || state.page !== 'camera' || !state.stream || !segmenter) {
+      segLoopRunning = false;
+      updateBgPreview();
+      return;
+    }
+    if (videoEl.readyState >= 2 && !segBusy) {
+      segBusy = true;
+      segmenter.send({ image: videoEl })
+        .then(function () { segBusy = false; requestAnimationFrame(segFrame); })
+        .catch(function () { segBusy = false; requestAnimationFrame(segFrame); });
+    } else {
+      requestAnimationFrame(segFrame);
+    }
+  }
+
+  function startSegLoop() {
+    if (segLoopRunning) return;
+    segLoopRunning = true;
+    requestAnimationFrame(segFrame);
+  }
+
+  $all('.bg-chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var bg = chip.getAttribute('data-bg');
+      if (bg !== 'none' && !ensureSegmenter()) {
+        cameraSub.textContent = 'Background effects need an internet connection — try again later.';
+        return;
+      }
+      $all('.bg-chip').forEach(function (c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      state.bg = bg;
+      updateBgPreview();
+      if (bg !== 'none') startSegLoop();
+    });
+  });
 
   function playShutterSound() {
     try {
@@ -290,8 +498,12 @@
   }
 
   function cropAndCapture() {
-    var vw = videoEl.videoWidth || 640;
-    var vh = videoEl.videoHeight || 480;
+    // When background replacement is on, capture the composited canvas
+    // instead of the raw video.
+    var useSeg = bgActive();
+    var source = useSeg ? segCanvas : videoEl;
+    var vw = useSeg ? segCanvas.width  : (videoEl.videoWidth || 640);
+    var vh = useSeg ? segCanvas.height : (videoEl.videoHeight || 480);
     var targetAR = 4 / 3;
     var srcAR = vw / vh;
     var sx = 0, sy = 0, sw = vw, sh = vh;
@@ -305,7 +517,7 @@
     ctx.save();
     ctx.filter = f.cssFilter;
     if (state.mirrored) { ctx.translate(outW, 0); ctx.scale(-1, 1); }
-    ctx.drawImage(videoEl, sx, sy, sw, sh, 0, 0, outW, outH);
+    ctx.drawImage(source, sx, sy, sw, sh, 0, 0, outW, outH);
     ctx.restore();
     if (f.opacity > 0) {
       ctx.save();
@@ -344,17 +556,29 @@
     var total = LAYOUTS[state.layout].count;
     var i = 0;
 
+    function takeShot() {
+      shotIndicator.textContent = 'Shot ' + (i + 1) + ' of ' + total;
+      flashAndShutter();
+      state.photos.push(cropAndCapture());
+      addThumb(state.photos[state.photos.length - 1]);
+      i++;
+    }
+
     function nextShot() {
       if (i >= total) { finishSequence(); return; }
       shotIndicator.textContent = 'Shot ' + (i + 1) + ' of ' + total;
       cameraSub.textContent = 'Hold that pose…';
       runCountdown().then(function () {
-        flashAndShutter();
-        state.photos.push(cropAndCapture());
-        addThumb(state.photos[state.photos.length - 1]);
-        i++;
+        takeShot();
         setTimeout(nextShot, 120);
       });
+    }
+
+    // Burst: one countdown, then all shots rapid-fire.
+    function burstShots() {
+      if (i >= total) { finishSequence(); return; }
+      takeShot();
+      setTimeout(burstShots, 550);
     }
 
     function finishSequence() {
@@ -365,8 +589,18 @@
       setTimeout(function () { goToPage('customize'); }, 500);
     }
 
-    nextShot();
+    if (state.burst) {
+      cameraSub.textContent = 'Get ready — burst incoming!';
+      runCountdown().then(burstShots);
+    } else {
+      nextShot();
+    }
   }
+
+  document.getElementById('burst-toggle').addEventListener('click', function () {
+    state.burst = !state.burst;
+    this.classList.toggle('on', state.burst);
+  });
 
   btnCapture.addEventListener('click', function () {
     try {
@@ -395,7 +629,14 @@
 
   function applyFrame() {
     stripCanvas.style.background = state.frame.type === 'solid' ? state.frame.value : state.frame.css;
+    var pad = state.framePad;
+    stripCanvas.style.padding = pad + 'px ' + pad + 'px ' + Math.max(6, pad - 2) + 'px';
   }
+
+  document.getElementById('border-width-input').addEventListener('input', function () {
+    state.framePad = parseInt(this.value, 10);
+    applyFrame();
+  });
 
   /* Tabs */
   $all('.tab').forEach(function (tab) {
@@ -427,12 +668,14 @@
       solidWrap.appendChild(b);
     });
 
-    document.getElementById('stripe-swatches').appendChild(document.createDocumentFragment());
     STRIPE_PATTERNS.forEach(function (p) {
       document.getElementById('stripe-swatches').appendChild(makePatternSwatch(p));
     });
     DOT_PATTERNS.forEach(function (p) {
       document.getElementById('dot-swatches').appendChild(makePatternSwatch(p));
+    });
+    CHECKER_PATTERNS.forEach(function (p) {
+      document.getElementById('checker-swatches').appendChild(makePatternSwatch(p));
     });
 
     function makePatternSwatch(p) {
@@ -459,6 +702,15 @@
   }());
 
   /* Sticker library */
+  function makeStickerBtn(emoji) {
+    var b = document.createElement('button');
+    b.className = 'sticker-btn';
+    b.textContent = emoji;
+    b.type = 'button';
+    b.addEventListener('click', function () { addSticker(emoji); });
+    return b;
+  }
+
   (function buildStickerLibrary() {
     var wrap = document.getElementById('sticker-categories');
     STICKER_CATEGORIES.forEach(function (cat) {
@@ -469,19 +721,47 @@
       h.textContent = cat.name;
       var grid = document.createElement('div');
       grid.className = 'sticker-grid';
-      cat.items.forEach(function (emoji) {
-        var b = document.createElement('button');
-        b.className = 'sticker-btn';
-        b.textContent = emoji;
-        b.type = 'button';
-        b.addEventListener('click', function () { addSticker(emoji); });
-        grid.appendChild(b);
+      cat.items.forEach(function (item) {
+        grid.appendChild(makeStickerBtn(item[0]));
       });
       section.appendChild(h);
       section.appendChild(grid);
       wrap.appendChild(section);
     });
   }());
+
+  /* Sticker search */
+  document.getElementById('sticker-search').addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    var resultsWrap = document.getElementById('sticker-search-results');
+    var resultsGrid = document.getElementById('sticker-results-grid');
+    var categories  = document.getElementById('sticker-categories');
+    if (!q) {
+      resultsWrap.style.display = 'none';
+      categories.style.display = '';
+      return;
+    }
+    resultsGrid.innerHTML = '';
+    var seen = {};
+    STICKER_CATEGORIES.forEach(function (cat) {
+      cat.items.forEach(function (item) {
+        var emoji = item[0], keywords = item[1];
+        if (seen[emoji]) return;
+        if (keywords.indexOf(q) !== -1 || cat.name.toLowerCase().indexOf(q) !== -1) {
+          seen[emoji] = true;
+          resultsGrid.appendChild(makeStickerBtn(emoji));
+        }
+      });
+    });
+    if (!resultsGrid.children.length) {
+      var empty = document.createElement('p');
+      empty.className = 'sticker-cat-name';
+      empty.textContent = 'No stickers found for “' + q + '”';
+      resultsGrid.appendChild(empty);
+    }
+    resultsWrap.style.display = '';
+    categories.style.display = 'none';
+  });
 
   function addSticker(emoji) {
     var id = uid();
@@ -837,7 +1117,7 @@
   // The capture leaves the frame area transparent (see onclone above), so
   // painting with 'destination-over' fills exactly that area.
   function paintPatternFrame(canvas) {
-    var p = STRIPE_PATTERNS.concat(DOT_PATTERNS).find(function (q) { return q.id === state.frame.id; });
+    var p = ALL_PATTERNS.find(function (q) { return q.id === state.frame.id; });
     if (!p) return;
     var ctx = canvas.getContext('2d');
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -880,6 +1160,14 @@
       }
       ctx.fillStyle = p.dots.bg;
       ctx.fillRect(0, 0, w, h);
+    } else if (p.checker) {
+      var sq = p.checker.cell * k;
+      for (var row = 0; row * sq < h; row++) {
+        for (var col = 0; col * sq < w; col++) {
+          ctx.fillStyle = (row + col) % 2 === 0 ? p.checker.c1 : p.checker.c2;
+          ctx.fillRect(col * sq, row * sq, sq, sq);
+        }
+      }
     }
 
     ctx.restore();
@@ -921,6 +1209,52 @@
     document.body.removeChild(a);
   });
 
+  /* GIF / Boomerang export */
+  function buildAnimatedGIF(frames, interval, filename, btn) {
+    if (!window.gifshot) {
+      btn.textContent = 'GIF unavailable offline';
+      setTimeout(function () { btn.textContent = btn.dataset.label; }, 2500);
+      return;
+    }
+    var original = btn.dataset.label;
+    btn.disabled = true;
+    btn.textContent = 'Building…';
+    window.gifshot.createGIF({
+      images: frames,
+      interval: interval,
+      gifWidth: 480,
+      gifHeight: 360,
+      numWorkers: 2
+    }, function (result) {
+      btn.disabled = false;
+      btn.textContent = original;
+      if (result.error) return;
+      var a = document.createElement('a');
+      a.href = result.image;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  document.getElementById('btn-gif').addEventListener('click', function () {
+    if (!state.photos.length) return;
+    buildAnimatedGIF(state.photos.slice(), 0.4, 'oro-photobooth.gif', this);
+  });
+
+  document.getElementById('btn-boomerang').addEventListener('click', function () {
+    if (!state.photos.length) return;
+    // forward then reverse (without repeating the endpoints) = boomerang loop
+    var frames = state.photos.concat(state.photos.slice(1, -1).reverse());
+    buildAnimatedGIF(frames, 0.18, 'oro-photobooth-boomerang.gif', this);
+  });
+
+  ['btn-gif', 'btn-boomerang'].forEach(function (id) {
+    var b = document.getElementById(id);
+    b.dataset.label = b.textContent;
+  });
+
   document.getElementById('btn-retake').addEventListener('click', function () { goToPage('camera'); });
 
   document.getElementById('btn-restart').addEventListener('click', function () {
@@ -931,6 +1265,14 @@
     document.querySelector('.filter-chip[data-filter="none"]').classList.add('active');
     document.getElementById('date-toggle').classList.add('on');
     document.getElementById('caption-input').value = '';
+    document.getElementById('burst-toggle').classList.remove('on');
+    $all('.bg-chip').forEach(function (c) { c.classList.remove('active'); });
+    document.querySelector('.bg-chip[data-bg="none"]').classList.add('active');
+    updateBgPreview();
+    document.getElementById('border-width-input').value = 16;
+    var search = document.getElementById('sticker-search');
+    search.value = '';
+    search.dispatchEvent(new Event('input'));
     stickerLayer.innerHTML = '';
     textLayer.innerHTML = '';
     photoSlots.innerHTML = '';

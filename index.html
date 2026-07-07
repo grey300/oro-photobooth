@@ -219,10 +219,23 @@
               <p class="panel-label">Polka Dots</p>
               <div class="pattern-row" id="dot-swatches"></div>
             </div>
+            <div>
+              <p class="panel-label">Checkerboard</p>
+              <div class="pattern-row" id="checker-swatches"></div>
+            </div>
+            <div>
+              <p class="panel-label">Border Width</p>
+              <input type="range" id="border-width-input" min="8" max="30" value="16">
+            </div>
           </div>
 
           <!-- Stickers tab -->
           <div class="tab-panel" id="tab-stickers">
+            <input type="text" class="text-input sticker-search" id="sticker-search" placeholder="Search stickers… (heart, cat, pizza…)" maxlength="30">
+            <div id="sticker-search-results" style="display:none;">
+              <p class="sticker-cat-name">Results</p>
+              <div class="sticker-grid" id="sticker-results-grid"></div>
+            </div>
             <div id="sticker-categories"></div>
           </div>
 
@@ -286,6 +299,8 @@
       </div>
       <div class="export-actions">
         <button class="btn-export btn-export-primary" id="btn-download">Download PNG</button>
+        <button class="btn-export btn-export-secondary" id="btn-gif">Download GIF</button>
+        <button class="btn-export btn-export-secondary" id="btn-boomerang">Boomerang</button>
         <button class="btn-export btn-export-secondary" id="btn-retake">Retake Photos</button>
         <button class="btn-export btn-export-secondary" id="btn-restart">Start Over</button>
       </div>
@@ -296,6 +311,8 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gifshot/0.3.2/gifshot.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"></script>
 <script src="js/app.js"></script>
 
 </body>

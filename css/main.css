@@ -1078,3 +1078,36 @@ img { display: block; max-width: 100%; }
   0%, 100% { opacity: .4; }
   50% { opacity: 1; }
 }
+
+/* ============================================================
+   NEW FEATURES — background replacement, burst, sticker search
+   ============================================================ */
+#seg-preview {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: none;
+}
+#seg-preview.mirrored { transform: scaleX(-1); }
+
+.bg-row { margin-top: 2px; align-items: center; }
+.bg-row-label {
+  font-family: var(--f-mono); font-size: .72rem; font-weight: 600;
+  color: var(--text-mid); letter-spacing: .08em; text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.burst-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin: 14px auto 4px;
+}
+.burst-label {
+  font-family: var(--f-ui); font-size: .9rem; font-weight: 600; color: var(--text);
+  display: flex; flex-direction: column; line-height: 1.3;
+}
+.burst-label small {
+  font-weight: 400; font-size: .74rem; color: var(--text-mid);
+}
+
+.sticker-search { width: 100%; margin-bottom: 14px; }
+
+#border-width-input { width: 100%; }
