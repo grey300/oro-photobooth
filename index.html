@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ORO Photobooth</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Caveat:wght@600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ========================================================
+       PAGE 1: LANDING
+       ======================================================== -->
+  <section class="page active" id="page-landing">
+    <div class="page-inner">
+      <div class="glass-card landing-card">
+
+        <!-- ── Camera top panel: flash · lens · viewfinder ── -->
+        <div class="cam-top">
+          <div class="cam-flash">
+            <div class="cam-flash-bulb"></div>
+          </div>
+          <div class="cam-lens-r1">
+            <div class="cam-lens-r2">
+              <div class="cam-lens-r3">
+                <div class="cam-lens-core">
+                  <div class="cam-eye">
+                    <div class="cam-eye-pupil">
+                      <div class="cam-eye-catch"></div>
+                      <div class="cam-eye-catch2"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cam-viewfinder"></div>
+        </div>
+
+        <!-- ── Brand nameplate — sits on camera body below the lens panel ── -->
+        <div class="cam-brand">
+          <img src="images/logo.svg" class="oro-logo-img cam-brand-logo" alt="ORO">
+        </div>
+
+        <!-- ── Divider — body rail between lens panel and content ── -->
+        <div class="cam-rail"></div>
+
+        <!-- ── Card content ── -->
+        <p class="brand-sub">Prediction · Photobooth</p>
+        <p class="about-text">ORO Prediction — where instinct meets insight. Forecast outcomes, back your picks, and see how your predictions stack up against the crowd.</p>
+        <button class="btn-primary" id="btn-start">Let's Get Started <span class="arrow">→</span></button>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       PAGE 2: LAYOUT SELECTION
+       ======================================================== -->
+  <section class="page" id="page-layout">
+    <div class="step-header">
+      <div class="step-header-left">
+        <button class="back-btn" data-back="landing" aria-label="Back">←</button>
+        <img src="images/logo.svg" class="oro-logo-img header" alt="ORO">
+      </div>
+      <div class="progress-dots" id="progress-dots"></div>
+    </div>
+    <div class="page-inner">
+      <h2 class="section-title">Choose Your Photo Strip Layout</h2>
+      <p class="section-sub">Pick how many shots you'd like in your strip — your layout sets the rhythm for the booth.</p>
+      <div class="layout-grid">
+        <button class="layout-card" data-layout="1x3">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-1x3"><span></span><span></span><span></span></div>
+          <span class="layout-name">1 × 3</span>
+          <span class="layout-desc">One column, three photos</span>
+        </button>
+        <button class="layout-card" data-layout="1x4">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-1x4"><span></span><span></span><span></span><span></span></div>
+          <span class="layout-name">1 × 4</span>
+          <span class="layout-desc">One column, four photos</span>
+        </button>
+        <button class="layout-card" data-layout="2x3">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-2x3"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="layout-name">2 × 3</span>
+          <span class="layout-desc">Two columns, six photos</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       PAGE 3: CAMERA
+       ======================================================== -->
+  <section class="page" id="page-camera">
+    <div class="step-header">
+      <div class="step-header-left">
+        <button class="back-btn" data-back="layout" aria-label="Back">←</button>
+        <img src="images/logo.svg" class="oro-logo-img header" alt="ORO">
+      </div>
+      <div class="progress-dots" id="progress-dots-2"></div>
+    </div>
+    <div class="page-inner">
+      <h2 class="section-title">Strike a Pose</h2>
+      <p class="section-sub" id="camera-sub">Pick a filter, then say Datshi when you're ready.</p>
+
+      <div class="camera-stage">
+        <div class="camera-frame glass-card" id="camera-frame">
+          <video id="video-preview" autoplay playsinline muted></video>
+          <div class="overlay-tint" id="filter-overlay"></div>
+          <div class="flash-layer" id="flash-layer"></div>
+          <div class="countdown-layer">
+            <span class="countdown-num" id="countdown-num"></span>
+          </div>
+          <span class="shot-indicator" id="shot-indicator">Shot 1 of 3</span>
+          <div class="camera-status" id="camera-status">
+            <div class="spinner"></div>
+            <p style="font-size:.85rem;color:var(--text-mid);">Waking up the camera…</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-row" id="filter-row">
+        <button class="filter-chip active" data-filter="none">Natural</button>
+        <button class="filter-chip" data-filter="warm">Warm</button>
+        <button class="filter-chip" data-filter="cold">Cold</button>
+        <button class="filter-chip" data-filter="fiji">Fiji</button>
+        <button class="filter-chip" data-filter="canon">Canon G7X</button>
+      </div>
+
+      <button class="btn-capture" id="btn-capture">
+        <span class="shutter-dot"></span>
+        Say Datshi
+      </button>
+      <div class="thumb-row" id="thumb-row"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       PAGE 4: CUSTOMIZATION
+       ======================================================== -->
+  <section class="page" id="page-customize">
+    <div class="step-header">
+      <div class="step-header-left">
+        <button class="back-btn" data-back="camera" aria-label="Back">←</button>
+        <img src="images/logo.svg" class="oro-logo-img header" alt="ORO">
+      </div>
+      <div class="progress-dots" id="progress-dots-3"></div>
+    </div>
+    <div class="page-inner">
+      <h2 class="section-title">Make It Yours</h2>
+      <p class="section-sub">Drag stickers and text right onto your strip. Tap to select, pinch the handles to resize and rotate.</p>
+
+      <div class="customize-layout">
+
+        <!-- Strip preview -->
+        <div class="strip-stage">
+          <div class="strip-canvas-wrap glass-card">
+            <div class="strip-canvas" id="strip-canvas">
+              <div class="strip-logo-top">
+                <img src="images/logo.svg" class="oro-logo-img strip" alt="ORO">
+              </div>
+              <div class="photo-slots" id="photo-slots"></div>
+              <div class="strip-footer" id="strip-footer"></div>
+              <div class="sticker-layer" id="sticker-layer"></div>
+              <div class="text-layer" id="text-layer"></div>
+            </div>
+          </div>
+          <div class="strip-actions">
+            <button class="btn-ghost" id="btn-retake-inline">Retake Photos</button>
+          </div>
+        </div>
+
+        <!-- Customize panel -->
+        <div class="customize-panel glass-card">
+          <div class="tabs">
+            <button class="tab active" data-tab="frame">Frame</button>
+            <button class="tab" data-tab="stickers">Stickers</button>
+            <button class="tab" data-tab="text">Text</button>
+          </div>
+
+          <!-- Frame tab -->
+          <div class="tab-panel active" id="tab-frame">
+            <div>
+              <p class="panel-label">Solid Colors</p>
+              <div class="swatch-row" id="solid-swatches"></div>
+            </div>
+            <div>
+              <p class="panel-label">Stripes</p>
+              <div class="pattern-row" id="stripe-swatches"></div>
+            </div>
+            <div>
+              <p class="panel-label">Polka Dots</p>
+              <div class="pattern-row" id="dot-swatches"></div>
+            </div>
+          </div>
+
+          <!-- Stickers tab -->
+          <div class="tab-panel" id="tab-stickers">
+            <div id="sticker-categories"></div>
+          </div>
+
+          <!-- Text tab -->
+          <div class="tab-panel" id="tab-text">
+            <div>
+              <p class="panel-label">Caption</p>
+              <div class="text-input-row">
+                <input type="text" class="text-input" id="caption-input" placeholder="Add a cute caption…" maxlength="40">
+                <button class="btn-add" id="btn-add-caption">Add</button>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <span class="panel-label" style="margin:0;">Date Stamp</span>
+              <button class="toggle on" id="date-toggle" aria-label="Toggle date stamp"></button>
+            </div>
+            <div class="selection-editor disabled" id="text-editor">
+              <p class="panel-label">Selected Text</p>
+              <div class="font-row">
+                <button class="font-btn" data-font="cute"   style="font-family:var(--font-cute);">Cute</button>
+                <button class="font-btn" data-font="modern" style="font-family:var(--font-body);">Modern</button>
+                <button class="font-btn" data-font="future" style="font-family:var(--font-future);">Future</button>
+              </div>
+              <div class="field-row">
+                <label>Color</label>
+                <input type="color" id="text-color-input" value="#3a2e1f">
+              </div>
+              <div class="field-row">
+                <label>Size</label>
+                <input type="range" id="text-size-input" min="11" max="34" value="22">
+              </div>
+              <button class="btn-ghost" id="btn-delete-text" style="width:100%;">Remove this text</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="customize-actions">
+        <button class="btn-primary" id="btn-to-export">Continue to Export <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       PAGE 5: EXPORT
+       ======================================================== -->
+  <section class="page" id="page-export">
+    <div class="step-header">
+      <div class="step-header-left">
+        <img src="images/logo.svg" class="oro-logo-img header" alt="ORO">
+      </div>
+      <div class="progress-dots" id="progress-dots-4"></div>
+    </div>
+    <div class="page-inner">
+      <h2 class="section-title">Your Strip Is Ready ✨</h2>
+      <p class="section-sub">Download it, share it, or hop back in for another round.</p>
+      <div class="export-preview glass-card" id="export-preview">
+        <div class="spinner" id="export-spinner"></div>
+        <img id="export-img" style="display:none;" alt="Final ORO photo strip" />
+      </div>
+      <div class="export-actions">
+        <button class="btn-export btn-export-primary" id="btn-download">Download PNG</button>
+        <button class="btn-export btn-export-secondary" id="btn-retake">Retake Photos</button>
+        <button class="btn-export btn-export-secondary" id="btn-restart">Start Over</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
