@@ -8,7 +8,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Caveat:wght@600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Caveat:wght@600;700&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/main.css">
@@ -78,6 +78,12 @@
       <h2 class="section-title">Choose Your Photo Strip Layout</h2>
       <p class="section-sub">Pick how many shots you'd like in your strip — your layout sets the rhythm for the booth.</p>
       <div class="layout-grid">
+        <button class="layout-card" data-layout="1x2">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-1x2"><span></span><span></span></div>
+          <span class="layout-name">1 × 2</span>
+          <span class="layout-desc">Quick duo — two photos</span>
+        </button>
         <button class="layout-card" data-layout="1x3">
           <span class="check">✓</span>
           <div class="mini-strip mini-1x3"><span></span><span></span><span></span></div>
@@ -90,11 +96,29 @@
           <span class="layout-name">1 × 4</span>
           <span class="layout-desc">One column, four photos</span>
         </button>
+        <button class="layout-card" data-layout="2x2">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-2x2"><span></span><span></span><span></span><span></span></div>
+          <span class="layout-name">2 × 2</span>
+          <span class="layout-desc">Square grid, four photos</span>
+        </button>
         <button class="layout-card" data-layout="2x3">
           <span class="check">✓</span>
           <div class="mini-strip mini-2x3"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <span class="layout-name">2 × 3</span>
           <span class="layout-desc">Two columns, six photos</span>
+        </button>
+        <button class="layout-card" data-layout="2x4">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-2x4"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="layout-name">2 × 4</span>
+          <span class="layout-desc">Two columns, eight photos</span>
+        </button>
+        <button class="layout-card" data-layout="3x3">
+          <span class="check">✓</span>
+          <div class="mini-strip mini-3x3"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="layout-name">3 × 3</span>
+          <span class="layout-desc">Big grid, nine photos</span>
         </button>
       </div>
     </div>
@@ -255,9 +279,10 @@
             <div class="selection-editor disabled" id="text-editor">
               <p class="panel-label">Selected Text</p>
               <div class="font-row">
-                <button class="font-btn" data-font="cute"   style="font-family:var(--font-cute);">Cute</button>
-                <button class="font-btn" data-font="modern" style="font-family:var(--font-body);">Modern</button>
-                <button class="font-btn" data-font="future" style="font-family:var(--font-future);">Future</button>
+                <button class="font-btn" data-font="cute"   style="font-family:var(--f-cute);">Cute</button>
+                <button class="font-btn" data-font="modern" style="font-family:var(--f-sans);">Modern</button>
+                <button class="font-btn" data-font="future" style="font-family:var(--f-future);">Future</button>
+                <button class="font-btn" data-font="novel"  style="font-family:var(--f-novel);font-style:italic;">Novel</button>
               </div>
               <div class="field-row">
                 <label>Color</label>
@@ -299,6 +324,7 @@
       </div>
       <div class="export-actions">
         <button class="btn-export btn-export-primary" id="btn-download">Download PNG</button>
+        <button class="btn-export btn-export-primary" id="btn-share">Share ↗</button>
         <button class="btn-export btn-export-secondary" id="btn-gif">Download GIF</button>
         <button class="btn-export btn-export-secondary" id="btn-boomerang">Boomerang</button>
         <button class="btn-export btn-export-secondary" id="btn-retake">Retake Photos</button>
@@ -306,6 +332,27 @@
       </div>
     </div>
   </section>
+
+  <!-- Share sheet -->
+  <div class="share-backdrop" id="share-backdrop" hidden>
+    <div class="share-sheet" role="dialog" aria-label="Share your strip">
+      <div class="share-head">
+        <h3>Share Your Strip</h3>
+        <button class="share-close" id="share-close" aria-label="Close">×</button>
+      </div>
+      <p class="share-hint" id="share-hint">Your strip downloads as a PNG first — attach it to your post in the app.</p>
+      <div class="share-grid">
+        <button class="share-app" data-share="native" id="share-native"><span class="share-badge badge-native">📲</span>Device Share</button>
+        <button class="share-app" data-share="copy"><span class="share-badge badge-copy">⧉</span>Copy Image</button>
+        <button class="share-app" data-share="facebook"><span class="share-badge badge-fb">f</span>Facebook</button>
+        <button class="share-app" data-share="instagram"><span class="share-badge badge-ig">IG</span>Instagram</button>
+        <button class="share-app" data-share="threads"><span class="share-badge badge-th">@</span>Threads</button>
+        <button class="share-app" data-share="tiktok"><span class="share-badge badge-tt">♪</span>TikTok</button>
+        <button class="share-app" data-share="x"><span class="share-badge badge-x">𝕏</span>X / Twitter</button>
+        <button class="share-app" data-share="whatsapp"><span class="share-badge badge-wa">✆</span>WhatsApp</button>
+      </div>
+    </div>
+  </div>
 
 </div>
 

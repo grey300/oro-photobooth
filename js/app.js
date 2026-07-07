@@ -5,9 +5,13 @@
      CONFIG
      ============================================================ */
   var LAYOUTS = {
+    '1x2': { count: 2, cols: 1, label: '1 × 2' },
     '1x3': { count: 3, cols: 1, label: '1 × 3' },
     '1x4': { count: 4, cols: 1, label: '1 × 4' },
-    '2x3': { count: 6, cols: 2, label: '2 × 3' }
+    '2x2': { count: 4, cols: 2, label: '2 × 2' },
+    '2x3': { count: 6, cols: 2, label: '2 × 3' },
+    '2x4': { count: 8, cols: 2, label: '2 × 4' },
+    '3x3': { count: 9, cols: 3, label: '3 × 3' }
   };
 
   var FILTERS = {
@@ -620,8 +624,8 @@
 
   function buildStripSlots() {
     photoSlots.className = 'photo-slots layout-' + state.layout;
-    stripCanvas.classList.remove('layout-2x3');
-    if (state.layout === '2x3') stripCanvas.classList.add('layout-2x3');
+    Object.keys(LAYOUTS).forEach(function (key) { stripCanvas.classList.remove('layout-' + key); });
+    if (LAYOUTS[state.layout].cols > 1) stripCanvas.classList.add('layout-' + state.layout);
     photoSlots.innerHTML = state.photos.map(function (src, i) {
       return '<div class="photo-slot"><img src="' + src + '" alt="Photo ' + (i + 1) + '"/></div>';
     }).join('');
@@ -1058,7 +1062,8 @@
   var TEXT_FONTS = {
     cute:   { weight: '700', family: "'Caveat', cursive" },
     modern: { weight: '700', family: "'DM Sans', system-ui, sans-serif" },
-    future: { weight: '600', family: "'Orbitron', sans-serif", spacing: 0.05 }
+    future: { weight: '600', family: "'Orbitron', sans-serif", spacing: 0.05 },
+    novel:  { weight: '600', family: "'EB Garamond', Georgia, serif", italic: true }
   };
 
   function paintOverlaysOnCanvas(canvas) {
@@ -1101,7 +1106,7 @@
       var f = TEXT_FONTS[tx.font] || TEXT_FONTS.modern;
       var size = tx.size * k;
       ctx.save();
-      ctx.font = f.weight + ' ' + size + 'px ' + f.family;
+      ctx.font = (f.italic ? 'italic ' : '') + f.weight + ' ' + size + 'px ' + f.family;
       if (f.spacing && 'letterSpacing' in ctx) ctx.letterSpacing = (size * f.spacing) + 'px';
       ctx.fillStyle = tx.color;
       ctx.textAlign = 'center';
@@ -1188,7 +1193,7 @@
     ctx.fillText('ORO Photobooth', w / 2, 30 * scale);
     var imgs = photoSlots.querySelectorAll('img');
     var pad = 16 * scale, gap = 8 * scale;
-    var cols = state.layout === '2x3' ? 2 : 1;
+    var cols = LAYOUTS[state.layout] ? LAYOUTS[state.layout].cols : 1;
     imgs.forEach(function (img, i) {
       var col   = i % cols;
       var row   = Math.floor(i / cols);
@@ -1199,7 +1204,7 @@
     return c.toDataURL('image/png');
   }
 
-  document.getElementById('btn-download').addEventListener('click', function () {
+  function downloadStrip() {
     if (!state.exportDataURL) return;
     var a = document.createElement('a');
     a.href = state.exportDataURL;
@@ -1207,6 +1212,84 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  document.getElementById('btn-download').addEventListener('click', downloadStrip);
+
+  /* ── Share sheet ── */
+  var shareBackdrop = document.getElementById('share-backdrop');
+  var SHARE_TEXT = 'Made with ORO Photobooth ✨';
+  // Only pass a link to web intents when the app is actually hosted somewhere.
+  var SHARE_URL = /^https?:/i.test(location.href) ? location.href : '';
+
+  function stripAsFile() {
+    return fetch(state.exportDataURL)
+      .then(function (r) { return r.blob(); })
+      .then(function (blob) { return new File([blob], 'oro-photobooth-strip.png', { type: 'image/png' }); });
+  }
+
+  function openShareSheet() {
+    if (!state.exportDataURL) return;
+    // Native share only where the browser can actually share files
+    var nativeBtn = document.getElementById('share-native');
+    var canNative = !!(navigator.share && navigator.canShare && window.File);
+    nativeBtn.style.display = canNative ? '' : 'none';
+    shareBackdrop.hidden = false;
+  }
+
+  function closeShareSheet() { shareBackdrop.hidden = true; }
+
+  document.getElementById('btn-share').addEventListener('click', openShareSheet);
+  document.getElementById('share-close').addEventListener('click', closeShareSheet);
+  shareBackdrop.addEventListener('click', function (e) { if (e.target === shareBackdrop) closeShareSheet(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !shareBackdrop.hidden) closeShareSheet(); });
+
+  var SHARE_INTENTS = {
+    facebook: function () {
+      return SHARE_URL
+        ? 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SHARE_URL)
+        : 'https://www.facebook.com/';
+    },
+    threads:  function () { return 'https://www.threads.net/intent/post?text=' + encodeURIComponent(SHARE_TEXT + (SHARE_URL ? ' ' + SHARE_URL : '')); },
+    x:        function () { return 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(SHARE_TEXT) + (SHARE_URL ? '&url=' + encodeURIComponent(SHARE_URL) : ''); },
+    whatsapp: function () { return 'https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT + (SHARE_URL ? ' ' + SHARE_URL : '')); },
+    instagram: function () { return 'https://www.instagram.com/'; },
+    tiktok:    function () { return 'https://www.tiktok.com/upload'; }
+  };
+
+  $all('.share-app').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var kind = btn.getAttribute('data-share');
+
+      if (kind === 'native') {
+        stripAsFile().then(function (file) {
+          var payload = { files: [file], title: 'ORO Photobooth', text: SHARE_TEXT };
+          if (navigator.canShare && !navigator.canShare(payload)) payload = { title: 'ORO Photobooth', text: SHARE_TEXT };
+          return navigator.share(payload);
+        }).then(closeShareSheet).catch(function () {});
+        return;
+      }
+
+      if (kind === 'copy') {
+        var original = btn.textContent;
+        stripAsFile().then(function (file) {
+          if (!navigator.clipboard || !window.ClipboardItem) throw new Error('unsupported');
+          return navigator.clipboard.write([new window.ClipboardItem({ 'image/png': file })]);
+        }).then(function () {
+          btn.lastChild.textContent = 'Copied!';
+          setTimeout(function () { btn.lastChild.textContent = 'Copy Image'; }, 2000);
+        }).catch(function () {
+          btn.lastChild.textContent = 'Copy unavailable';
+          setTimeout(function () { btn.lastChild.textContent = 'Copy Image'; }, 2000);
+        });
+        return;
+      }
+
+      // Web intents can't attach a local image — save the PNG first so the
+      // user can attach it in the app, then open the platform.
+      downloadStrip();
+      window.open(SHARE_INTENTS[kind](), '_blank', 'noopener');
+    });
   });
 
   /* GIF / Boomerang export */

@@ -44,10 +44,12 @@
 
   /* ── Typography ── */
   --f-display: 'Cormorant Garamond', Georgia, serif;
-  --f-ui:      'DM Sans', system-ui, sans-serif;
+  --f-ui:      'EB Garamond', Georgia, serif;
+  --f-sans:    'DM Sans', system-ui, sans-serif;
   --f-mono:    'DM Mono', 'Courier New', monospace;
   --f-cute:    'Caveat', cursive;
   --f-future:  'Orbitron', sans-serif;
+  --f-novel:   'EB Garamond', Georgia, serif;
 
   /* Legacy aliases (used in JS inline styles) */
   --font-display: var(--f-display);
@@ -572,12 +574,20 @@ img { display: block; max-width: 100%; }
   background: var(--sh-light);
   border-radius: 3px; display: block;
 }
+.mini-1x2 { width: 60px; grid-template-columns: 1fr; }
+.mini-1x2 span { height: 30px; }
 .mini-1x3 { width: 60px; grid-template-columns: 1fr; }
 .mini-1x3 span { height: 22px; }
 .mini-1x4 { width: 60px; grid-template-columns: 1fr; }
 .mini-1x4 span { height: 17px; }
+.mini-2x2 { width: 84px; grid-template-columns: 1fr 1fr; }
+.mini-2x2 span { height: 28px; }
 .mini-2x3 { width: 90px; grid-template-columns: 1fr 1fr; }
 .mini-2x3 span { height: 22px; }
+.mini-2x4 { width: 90px; grid-template-columns: 1fr 1fr; }
+.mini-2x4 span { height: 17px; }
+.mini-3x3 { width: 96px; grid-template-columns: 1fr 1fr 1fr; }
+.mini-3x3 span { height: 21px; }
 
 .layout-name { font-family: var(--f-mono); font-weight: 500; font-size: 1.1rem; letter-spacing: .04em; color: var(--blue); }
 .layout-desc { font-size: .82rem; color: var(--text-mid); text-align: center; }
@@ -777,14 +787,21 @@ img { display: block; max-width: 100%; }
   transition: none;
   touch-action: none;
 }
-.strip-canvas.layout-2x3 { width: 440px; }
+.strip-canvas.layout-2x2,
+.strip-canvas.layout-2x3,
+.strip-canvas.layout-2x4 { width: 440px; }
+.strip-canvas.layout-3x3 { width: 520px; }
 
 .strip-logo-top { display: flex; align-items: center; justify-content: center; padding-bottom: 12px; }
 
 .photo-slots { display: grid; gap: 8px; }
+.photo-slots.layout-1x2 { grid-template-columns: 1fr; }
 .photo-slots.layout-1x3 { grid-template-columns: 1fr; }
 .photo-slots.layout-1x4 { grid-template-columns: 1fr; }
+.photo-slots.layout-2x2 { grid-template-columns: 1fr 1fr; }
 .photo-slots.layout-2x3 { grid-template-columns: 1fr 1fr; }
+.photo-slots.layout-2x4 { grid-template-columns: 1fr 1fr; }
+.photo-slots.layout-3x3 { grid-template-columns: 1fr 1fr 1fr; }
 
 .photo-slot {
   aspect-ratio: 4/3; border-radius: 6px; overflow: hidden;
@@ -834,8 +851,9 @@ img { display: block; max-width: 100%; }
 .text-elem.selected { outline: 1.5px dashed var(--blue); outline-offset: 4px; border-radius: 8px; }
 .text-elem.selected .elem-delete { display: flex; }
 .text-elem.font-cute { font-family: var(--f-cute); font-weight: 700; }
-.text-elem.font-modern { font-family: var(--f-ui); font-weight: 700; }
+.text-elem.font-modern { font-family: var(--f-sans); font-weight: 700; }
 .text-elem.font-future { font-family: var(--f-future); font-weight: 600; letter-spacing: .05em; }
+.text-elem.font-novel { font-family: var(--f-novel); font-weight: 600; font-style: italic; }
 
 .strip-canvas.export-mode .handle,
 .strip-canvas.export-mode .elem-delete { display: none !important; }
@@ -1068,7 +1086,10 @@ img { display: block; max-width: 100%; }
   .cam-flash, .cam-viewfinder { flex: 0 0 40px; height: 26px; }
   .cam-rail       { margin: 14px 0 10px; }
   .strip-canvas   { width: min(86vw, 300px); }
-  .strip-canvas.layout-2x3 { width: min(92vw, 400px); }
+  .strip-canvas.layout-2x2,
+  .strip-canvas.layout-2x3,
+  .strip-canvas.layout-2x4 { width: min(92vw, 400px); }
+  .strip-canvas.layout-3x3 { width: min(94vw, 440px); }
   .customize-panel { width: 100%; }
   .camera-stage   { padding: 10px; }
   .btn-capture    { padding: 14px 32px; }
@@ -1111,3 +1132,62 @@ img { display: block; max-width: 100%; }
 .sticker-search { width: 100%; margin-bottom: 14px; }
 
 #border-width-input { width: 100%; }
+
+/* ============================================================
+   SHARE SHEET
+   ============================================================ */
+.share-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(10, 14, 30, .55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.share-backdrop[hidden] { display: none; }
+
+.share-sheet {
+  background: var(--base);
+  border-radius: var(--r-xl);
+  box-shadow: var(--neu-lg), 0 24px 60px rgba(0,0,0,.35);
+  padding: 24px 24px 20px;
+  width: min(430px, 94vw);
+}
+
+.share-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.share-head h3 { font-family: var(--f-display); font-size: 1.4rem; }
+.share-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  font-size: 1.2rem; color: var(--text-mid);
+  box-shadow: var(--neu-sm);
+}
+.share-close:hover { color: var(--text); box-shadow: var(--neu-md); }
+
+.share-hint { font-size: .85rem; color: var(--text-mid); margin-bottom: 18px; line-height: 1.45; }
+
+.share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.share-app {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; border-radius: var(--r-lg);
+  font-family: var(--f-ui); font-weight: 600; font-size: .95rem;
+  color: var(--text);
+  box-shadow: var(--neu-sm);
+  transition: all .25s var(--ease);
+}
+.share-app:hover { box-shadow: var(--neu-md); transform: translateY(-2px); }
+.share-app:active { box-shadow: var(--neu-in-sm); transform: translateY(0); }
+
+.share-badge {
+  flex: 0 0 30px; width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; font-weight: 700; color: #fff;
+  font-family: var(--f-sans);
+}
+.badge-native { background: linear-gradient(135deg, #4a7cf7, #7d5fff); font-size: 1rem; }
+.badge-copy   { background: #5c6478; }
+.badge-fb     { background: #1877f2; font-family: Georgia, serif; font-size: 1.05rem; }
+.badge-ig     { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); font-size: .7rem; }
+.badge-th     { background: #101010; }
+.badge-tt     { background: #101010; box-shadow: -1.5px -1.5px 0 rgba(37,244,238,.8), 1.5px 1.5px 0 rgba(254,44,85,.8); }
+.badge-x      { background: #101010; }
+.badge-wa     { background: #25d366; font-size: 1rem; }
