@@ -170,6 +170,21 @@
   function uid() { return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function clamp(v, min, max) { return Math.min(max, Math.max(min, v)); }
 
+  /* Vercel Analytics on the free plan only counts pageviews, so usage
+     moments are reported as virtual pageviews under /event/<name>.
+     Each fires at most once per visit so the counts approximate users,
+     not repeat actions. */
+  var trackedEvents = {};
+  function trackUsage(name) {
+    if (trackedEvents[name]) return;
+    trackedEvents[name] = true;
+    try {
+      var realURL = location.pathname + location.search + location.hash;
+      history.pushState(null, '', '/event/' + name);
+      setTimeout(function () { history.replaceState(null, '', realURL); }, 150);
+    } catch (e) {}
+  }
+
   function formatDateStamp() {
     var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     var d = new Date();
@@ -564,6 +579,7 @@
 
   function startCaptureSequence() {
     if (state.capturing || !state.layout) return;
+    trackUsage('photobooth-used');
     state.capturing = true;
     state.photos = [];
     thumbRow.innerHTML = '';
@@ -838,7 +854,7 @@
     var val = input.value.trim();
     if (!val) return;
     var id = uid();
-    state.texts.push({ id: id, text: val, xPct: 50, yPct: 50, font: 'cute', color: '#3a2e1f', size: 22, isDate: false });
+    state.texts.push({ id: id, text: val, xPct: 50, yPct: 50, font: 'novel', color: '#3a2e1f', size: 22, isDate: false });
     input.value = '';
     renderTextLayer();
     selectItem(id);
@@ -1214,6 +1230,7 @@
 
   function downloadStrip() {
     if (!state.exportDataURL) return;
+    trackUsage('strip-downloaded');
     var a = document.createElement('a');
     a.href = state.exportDataURL;
     a.download = 'oro-photobooth-strip.png';

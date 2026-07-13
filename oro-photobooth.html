@@ -1039,8 +1039,23 @@ function addThumb(src){
   thumbRow.appendChild(img);
 }
 
+/* Vercel Analytics on the free plan only counts pageviews, so usage
+   moments are reported as virtual pageviews under /event/<name>.
+   Each fires at most once per visit so the counts approximate users. */
+var trackedEvents = {};
+function trackUsage(name){
+  if(trackedEvents[name]) return;
+  trackedEvents[name] = true;
+  try {
+    var realURL = location.pathname + location.search + location.hash;
+    history.pushState(null, '', '/event/' + name);
+    setTimeout(function(){ history.replaceState(null, '', realURL); }, 150);
+  } catch(e) {}
+}
+
 function startCaptureSequence(){
   if(state.capturing || !state.layout) return;
+  trackUsage('photobooth-used');
   state.capturing = true;
   state.photos = [];
   thumbRow.innerHTML = '';
@@ -1519,6 +1534,7 @@ function renderFallbackCanvas(){
 
 document.getElementById('btn-download').addEventListener('click', function(){
   if(!state.exportDataURL) return;
+  trackUsage('strip-downloaded');
   var a = document.createElement('a');
   a.href = state.exportDataURL;
   a.download = 'oro-photobooth-strip.png';
